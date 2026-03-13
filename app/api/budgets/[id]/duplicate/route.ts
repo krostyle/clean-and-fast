@@ -35,12 +35,13 @@ export async function POST(_req: NextRequest, { params }: { params: Promise<{ id
       taxAmount: original.taxAmount,
       total: original.total,
       items: {
-        create: original.items.map(({ description, quantity, unitPrice, total, order }) => ({
-          description,
-          quantity,
-          unitPrice,
-          total,
-          order,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        create: (original.items as any[]).map((item) => ({
+          description: item.description,
+          quantity: item.quantity,
+          unitPrice: item.unitPrice,
+          total: item.total,
+          order: item.order,
         })),
       },
     },
