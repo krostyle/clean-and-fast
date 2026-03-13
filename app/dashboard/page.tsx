@@ -24,9 +24,12 @@ export default async function DashboardPage() {
     }),
   ]);
 
-  const totalBudgets = budgetStats.reduce((s, g) => s + g._count._all, 0);
-  const acceptedCount = budgetStats.find((g) => g.status === "ACCEPTED")?._count._all ?? 0;
-  const totalRevenue = budgetStats
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const totalBudgets = (budgetStats as any[]).reduce((s, g) => s + g._count._all, 0);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const acceptedCount = (budgetStats as any[]).find((g) => g.status === "ACCEPTED")?._count._all ?? 0;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const totalRevenue = (budgetStats as any[])
     .filter((g) => ["ACCEPTED", "INVOICED"].includes(g.status))
     .reduce((s, g) => s + (g._sum.total?.toNumber() ?? 0), 0);
 
