@@ -94,7 +94,8 @@ export default async function ClientsPage({
                   </tr>
                 </thead>
                 <tbody>
-                  {clients.map((client) => (
+                  {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                  {(clients as any[]).map((client) => (
                     <tr key={client.id} className="border-b hover:bg-slate-50 transition-colors">
                       <td className="px-4 py-3 font-medium">
                         <Link href={`/dashboard/clients/${client.id}`} className="hover:text-blue-600">

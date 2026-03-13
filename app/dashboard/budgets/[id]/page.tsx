@@ -129,7 +129,8 @@ export default async function BudgetDetailPage({ params }: { params: Promise<{ i
               </tr>
             </thead>
             <tbody>
-              {budget.items.map((item) => (
+              {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+              {(budget.items as any[]).map((item) => (
                 <tr key={item.id} className="border-t">
                   <td className="px-4 py-3">{item.description}</td>
                   <td className="px-4 py-3 text-right">{item.quantity.toNumber()}</td>

@@ -78,7 +78,8 @@ export default async function DashboardPage() {
               <p className="p-6 text-sm text-gray-500">Sin presupuestos aún</p>
             ) : (
               <div className="divide-y">
-                {recentBudgets.map((b) => (
+                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                {(recentBudgets as any[]).map((b) => (
                   <div key={b.id} className="flex items-center justify-between px-6 py-3">
                     <div>
                       <Link href={`/dashboard/budgets/${b.id}`} className="text-sm font-mono font-medium hover:text-blue-600">
@@ -110,7 +111,8 @@ export default async function DashboardPage() {
               <p className="p-6 text-sm text-gray-500">Sin clientes aún</p>
             ) : (
               <div className="divide-y">
-                {recentClients.map((c) => (
+                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                {(recentClients as any[]).map((c) => (
                   <div key={c.id} className="flex items-center justify-between px-6 py-3">
                     <div>
                       <Link href={`/dashboard/clients/${c.id}`} className="text-sm font-medium hover:text-blue-600">

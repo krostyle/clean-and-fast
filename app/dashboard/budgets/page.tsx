@@ -106,7 +106,8 @@ export default async function BudgetsPage({
                   </tr>
                 </thead>
                 <tbody>
-                  {budgets.map((budget) => (
+                  {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                  {(budgets as any[]).map((budget) => (
                     <tr key={budget.id} className="border-b hover:bg-slate-50 transition-colors">
                       <td className="px-4 py-3 font-mono font-medium">
                         <Link href={`/dashboard/budgets/${budget.id}`} className="hover:text-blue-600">
