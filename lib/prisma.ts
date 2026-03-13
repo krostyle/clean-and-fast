@@ -5,18 +5,22 @@ const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
 };
 
-function createPrismaClient() {
-  const connectionString = process.env.DATABASE_URL;
-  if (!connectionString) {
-    throw new Error("DATABASE_URL environment variable is not set");
+function getClient(): PrismaClient {
+  if (!globalForPrisma.prisma) {
+    const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
+    globalForPrisma.prisma = new PrismaClient({
+      adapter,
+      log:
+        process.env.NODE_ENV === "development" ? ["error", "warn"] : ["error"],
+    });
   }
-  const adapter = new PrismaPg({ connectionString });
-  return new PrismaClient({
-    adapter,
-    log: process.env.NODE_ENV === "development" ? ["error", "warn"] : ["error"],
-  });
+  return globalForPrisma.prisma;
 }
 
-export const prisma = globalForPrisma.prisma ?? createPrismaClient();
-
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
+// Lazy proxy: PrismaClient is only instantiated on first property access (runtime),
+// never at module load time (build), so missing DATABASE_URL during build is safe.
+export const prisma: PrismaClient = new Proxy({} as PrismaClient, {
+  get(_target, prop) {
+    return (getClient() as any)[prop as string];
+  },
+});
