@@ -31,7 +31,8 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
     taxAmount: budget.taxAmount.toNumber(),
     total: budget.total.toNumber(),
     taxRate: budget.taxRate.toNumber(),
-    items: budget.items.map((i) => ({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    items: (budget.items as any[]).map((i) => ({
       ...i,
       quantity: i.quantity.toNumber(),
       unitPrice: i.unitPrice.toNumber(),
@@ -104,7 +105,8 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
       taxAmount,
       total,
       items: {
-        create: items.map((item, idx) => ({
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        create: (items as any[]).map((item, idx) => ({
           description: item.description,
           quantity: item.quantity,
           unitPrice: item.unitPrice,

@@ -44,7 +44,8 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
       phone: budget.client.phone,
       address: budget.client.address,
     },
-    items: budget.items.map((i) => ({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    items: (budget.items as any[]).map((i) => ({
       description: i.description,
       quantity: i.quantity.toNumber(),
       unitPrice: i.unitPrice.toNumber(),

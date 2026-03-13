@@ -21,7 +21,8 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
 
   return NextResponse.json({
     ...client,
-    budgets: client.budgets.map((b) => ({ ...b, total: b.total.toNumber() })),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    budgets: (client.budgets as any[]).map((b: any) => ({ ...b, total: b.total.toNumber() })),
   });
 }
 

@@ -34,7 +34,8 @@ export async function GET(req: NextRequest) {
   ]);
 
   return NextResponse.json({
-    budgets: budgets.map((b) => ({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    budgets: (budgets as any[]).map((b) => ({
       ...b,
       subtotal: b.subtotal.toNumber(),
       taxAmount: b.taxAmount.toNumber(),
@@ -87,7 +88,8 @@ export async function POST(req: NextRequest) {
       taxAmount,
       total,
       items: {
-        create: items.map((item, idx) => ({
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        create: (items as any[]).map((item, idx) => ({
           description: item.description,
           quantity: item.quantity,
           unitPrice: item.unitPrice,
