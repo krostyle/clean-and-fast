@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import type { BudgetItem } from "@prisma/client";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
@@ -35,7 +36,7 @@ export async function POST(_req: NextRequest, { params }: { params: Promise<{ id
       taxAmount: original.taxAmount,
       total: original.total,
       items: {
-        create: original.items.map((item) => ({
+        create: original.items.map((item: BudgetItem) => ({
           description: item.description,
           quantity: item.quantity,
           unitPrice: item.unitPrice,
