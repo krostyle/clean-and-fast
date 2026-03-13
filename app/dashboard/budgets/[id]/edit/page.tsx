@@ -38,7 +38,8 @@ export default async function EditBudgetPage({ params }: { params: Promise<{ id:
           clientId: budget.clientId,
           notes: budget.notes ?? undefined,
           validUntil: budget.validUntil?.toISOString().split("T")[0] ?? undefined,
-          items: budget.items.map((item) => ({
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          items: (budget.items as any[]).map((item) => ({
             id: item.id,
             description: item.description,
             quantity: item.quantity.toNumber(),
