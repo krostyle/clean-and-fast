@@ -1,0 +1,85 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  OWNER
+  ADMIN
+}
+
+enum BudgetStatus {
+  DRAFT
+  SENT
+  ACCEPTED
+  REJECTED
+  INVOICED
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  role         Role     @default(ADMIN)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Client {
+  id        String   @id @default(cuid())
+  name      String
+  company   String?
+  email     String?
+  phone     String?
+  address   String?
+  notes     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  budgets   Budget[]
+}
+
+model Budget {
+  id          String       @id @default(cuid())
+  number      String       @unique
+  clientId    String
+  client      Client       @relation(fields: [clientId], references: [id])
+  status      BudgetStatus @default(DRAFT)
+  subtotal    Decimal      @db.Decimal(12, 2)
+  taxRate     Decimal      @db.Decimal(5, 2)
+  taxAmount   Decimal      @db.Decimal(12, 2)
+  total       Decimal      @db.Decimal(12, 2)
+  notes       String?
+  validUntil  DateTime?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  items       BudgetItem[]
+}
+
+model BudgetItem {
+  id          String  @id @default(cuid())
+  budgetId    String
+  budget      Budget  @relation(fields: [budgetId], references: [id], onDelete: Cascade)
+  description String
+  quantity    Decimal @db.Decimal(10, 2)
+  unitPrice   Decimal @db.Decimal(12, 2)
+  total       Decimal @db.Decimal(12, 2)
+  order       Int     @default(0)
+}
+
+model CompanyConfig {
+  id            String  @id @default("singleton")
+  name          String  @default("Clean and Fast")
+  taxId         String?
+  address       String?
+  phone         String?
+  email         String?
+  logoUrl       String?
+  taxRate       Decimal @default(19) @db.Decimal(5, 2)
+  currency      String  @default("CLP")
+  budgetPrefix  String  @default("PRES")
+  nextSequence  Int     @default(1)
+}
