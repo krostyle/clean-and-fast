@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { Prisma } from "@prisma/client";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
@@ -14,7 +15,7 @@ export async function POST(_req: NextRequest, { params }: { params: Promise<{ id
   if (!original) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
   // Generate new number atomically
-  const config = await prisma.$transaction(async (tx) => {
+  const config = await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
     return tx.companyConfig.update({
       where: { id: "singleton" },
       data: { nextSequence: { increment: 1 } },
