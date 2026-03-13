@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Prisma } from "@prisma/client";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { budgetSchema } from "@/lib/schemas";
@@ -61,11 +60,9 @@ export async function POST(req: NextRequest) {
   const { clientId, notes, validUntil, items } = result.data;
 
   // Get company config and generate number atomically
-  const config = await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
-    return tx.companyConfig.update({
-      where: { id: "singleton" },
-      data: { nextSequence: { increment: 1 } },
-    });
+  const config = await prisma.companyConfig.update({
+    where: { id: "singleton" },
+    data: { nextSequence: { increment: 1 } },
   });
 
   const seq = config.nextSequence - 1;
