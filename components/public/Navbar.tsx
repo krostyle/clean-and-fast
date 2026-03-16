@@ -1,12 +1,12 @@
 import Link from "next/link";
-import { Droplets, Instagram } from "lucide-react";
+import { PaintbrushVertical, Instagram } from "lucide-react";
 
 export function Navbar() {
   return (
     <nav className="fixed top-0 z-50 w-full border-b border-white/10 bg-white/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6">
         <Link href="/" className="flex items-center gap-2">
-          <Droplets className="h-6 w-6 text-blue-600" />
+          <PaintbrushVertical className="h-6 w-6 text-blue-600" />
           <span className="text-lg font-bold text-gray-900">Clean & Fast</span>
         </Link>
         <div className="hidden items-center gap-8 md:flex">

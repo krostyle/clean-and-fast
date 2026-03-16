@@ -1,8 +1,8 @@
-import { Droplets, Wrench, Package, CheckCircle } from "lucide-react";
+import { PaintbrushVertical, Wrench, Package, CheckCircle } from "lucide-react";
 
 const services = [
   {
-    icon: Droplets,
+    icon: PaintbrushVertical,
     title: "Limpieza Industrial",
     description:
       "Soluciones profesionales de limpieza para colegios, locales comerciales y hogares, con productos que no generan olor ni comprometen el entorno de trabajo.",

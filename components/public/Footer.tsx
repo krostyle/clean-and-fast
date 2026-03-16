@@ -1,4 +1,4 @@
-import { Droplets, Mail, Phone, MapPin, Instagram } from "lucide-react";
+import { PaintbrushVertical, Mail, Phone, MapPin, Instagram } from "lucide-react";
 
 export function Footer() {
   return (
@@ -8,7 +8,7 @@ export function Footer() {
           {/* Marca */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <Droplets className="h-5 w-5 text-blue-600" />
+              <PaintbrushVertical className="h-5 w-5 text-blue-600" />
               <span className="font-bold text-gray-900">Clean & Fast</span>
             </div>
             <p className="text-sm text-gray-600 leading-relaxed">

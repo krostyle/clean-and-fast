@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Droplets } from "lucide-react";
+import { PaintbrushVertical } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -22,6 +22,7 @@ type FormData = z.infer<typeof schema>;
 export default function LoginPage() {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
+  const [isRedirecting, setIsRedirecting] = useState(false);
 
   const {
     register,
@@ -40,6 +41,7 @@ export default function LoginPage() {
     if (result?.error) {
       setError("Credenciales incorrectas. Por favor intenta nuevamente.");
     } else {
+      setIsRedirecting(true);
       router.push("/dashboard");
       router.refresh();
     }
@@ -49,7 +51,7 @@ export default function LoginPage() {
     <Card className="w-full max-w-md shadow-lg">
       <CardHeader className="text-center space-y-3">
         <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-blue-600">
-          <Droplets className="h-6 w-6 text-white" />
+          <PaintbrushVertical className="h-6 w-6 text-white" />
         </div>
         <CardTitle className="text-2xl">Clean & Fast</CardTitle>
         <CardDescription>Ingresa a tu panel administrativo</CardDescription>
@@ -83,8 +85,8 @@ export default function LoginPage() {
               {error}
             </div>
           )}
-          <Button type="submit" className="w-full" disabled={isSubmitting}>
-            {isSubmitting ? "Iniciando sesión..." : "Iniciar sesión"}
+          <Button type="submit" className="w-full" disabled={isSubmitting || isRedirecting}>
+            {isRedirecting ? "Cargando panel..." : isSubmitting ? "Iniciando sesión..." : "Iniciar sesión"}
           </Button>
         </form>
       </CardContent>

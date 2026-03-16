@@ -7,7 +7,7 @@ import {
   Users,
   FileText,
   Settings,
-  Droplets,
+  PaintbrushVertical,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -18,14 +18,26 @@ const navItems = [
   { href: "/dashboard/settings", label: "Configuración", icon: Settings },
 ];
 
-export function Sidebar() {
+interface SidebarProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export function Sidebar({ isOpen, onClose }: SidebarProps) {
   const pathname = usePathname();
 
   return (
-    <aside className="flex h-full w-64 flex-col bg-[var(--sidebar-bg)] text-[var(--sidebar-fg)]">
+    <aside
+      className={cn(
+        "flex h-full w-64 flex-col bg-[var(--sidebar-bg)] text-[var(--sidebar-fg)]",
+        "fixed inset-y-0 left-0 z-30 -translate-x-full transition-transform duration-300 ease-in-out",
+        isOpen && "translate-x-0",
+        "md:static md:translate-x-0 md:transition-none"
+      )}
+    >
       {/* Logo */}
       <div className="flex items-center gap-3 border-b border-[var(--sidebar-border)] px-6 py-5">
-        <Droplets className="h-7 w-7 text-blue-400" />
+        <PaintbrushVertical className="h-7 w-7 text-blue-400" />
         <div>
           <p className="text-sm font-bold leading-none">Clean & Fast</p>
           <p className="text-xs text-slate-400 mt-0.5">Panel Administrativo</p>
@@ -44,6 +56,7 @@ export function Sidebar() {
             <Link
               key={item.href}
               href={item.href}
+              onClick={onClose}
               className={cn(
                 "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors",
                 isActive
